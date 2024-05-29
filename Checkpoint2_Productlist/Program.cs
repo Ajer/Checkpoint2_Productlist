@@ -126,20 +126,20 @@
     }
 
     
-    void HeaderForList()
+    void ListHeader()
     {
           Console.ForegroundColor = ConsoleColor.Green;
-          Console.WriteLine("Category".PadRight(15) + "ProductName".PadRight(15) + "Price");
+          Console.WriteLine("Category".PadRight(20) + "ProductName".PadRight(20) + "Price");
           Console.ResetColor();
     }
 
     void PrintAllProducts(List<Product> prods)
     {
         Console.WriteLine("");
-        HeaderForList();
+        ListHeader();
         foreach (var prod in prods)
         {
-            Console.WriteLine(prod.Category.PadRight(15) + prod.ProductName.PadRight(15) + prod.Price);
+            Console.WriteLine(prod.Category.PadRight(20) + prod.ProductName.PadRight(20) + prod.Price);
         }
     }
 
