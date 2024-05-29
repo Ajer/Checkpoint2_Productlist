@@ -19,14 +19,14 @@
         return "";
     }
 
-    void WriteUserQue(string color)
+    void WriteUserQue(string type)
     {
-        if (color == "Y")
+        if (type == "P")
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("To enter a new Product - follow the steps | to quit enter 'Q'");
         }
-        else if (color == "B")
+        else if (type == "PS")
         {
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("To enter a new Product - enter: \"P\" | To search for a product - enter: \"S\" | To quit enter 'Q'");
@@ -51,11 +51,12 @@
         string dataProductName = "";
         string dataPrice = "";
 
-        WriteUserQue("Y");
-
+       
         while (true)
         {
             bool categoryOk = false;
+
+            WriteUserQue("P");
 
             Console.WriteLine();
             while (!categoryOk)
@@ -120,7 +121,9 @@
             Product p = new Product(dataProductName, dataCategory, price);
 
             products.Add(p);
-
+            
+            //write to file
+            
             SuccessMessage();
         }
     }
@@ -135,12 +138,20 @@
 
     void PrintAllProducts(List<Product> prods)
     {
+        double sum = prods.Sum(item => item.Price);
+        var defaultSorted = prods.OrderBy(item => item.Price).ToList(); // default sort.ThenBy(item => item.ProductName).ToList();
+
         Console.WriteLine("");
         ListHeader();
-        foreach (var prod in prods)
+        Console.WriteLine("---------------------------------------------");
+        foreach (var prod in defaultSorted)
         {
             Console.WriteLine(prod.Category.PadRight(20) + prod.ProductName.PadRight(20) + prod.Price);
         }
+        Console.WriteLine();
+
+        Console.WriteLine("Total Amount:".PadRight(40) + sum.ToString());
+        Console.WriteLine("---------------------------------------------");
     }
 
 void Main()
@@ -150,6 +161,11 @@ void Main()
     ReadCategoryProductNamePrice(products);  // gör om till antingen "out data" eller string d = ReadCategoryProductName
 
     PrintAllProducts(products);
+
+    //while (true)
+    //{
+    //    WriteUserQue("PS");
+    //}
 }
 
 Main();
