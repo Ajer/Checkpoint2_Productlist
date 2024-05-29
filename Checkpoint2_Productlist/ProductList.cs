@@ -148,10 +148,35 @@ namespace Checkpoint2_Productlist
             Console.ResetColor();
         }
 
+
+        // Sort by ascending price
+        public List<Product> DefaultSort(List<Product> prods)
+        {
+            return prods.OrderBy(item => item.Price).ToList();
+        }
+
+
+        public void SearchProduct(List<Product> prods)
+        {
+            string? s = "";
+            while (true)
+            {
+                Console.Write("Enter a product to search for: ");
+                s = Console.ReadLine();
+                if (!string.IsNullOrEmpty(s) || s.Trim().ToLower().Equals("q"))
+                {
+                    break;
+                }
+            }
+
+
+        }
+
+
         public void PrintAllProducts(List<Product> prods)
         {
             double sum = prods.Sum(item => item.Price);
-            var defaultSorted = prods.OrderBy(item => item.Price).ToList(); // default sort.ThenBy(item => item.ProductName).ToList();
+            var defaultSorted = DefaultSort(prods); // default sort.ThenBy(item => item.ProductName).ToList();
 
             Console.WriteLine("");
             ListHeader();
