@@ -26,10 +26,15 @@ void Main()
 
             //.............
         }
-        else if (choice.Trim().ToLower() == "s")
+        else if (choice.Trim().ToLower() == "s")    // search for product 
         {
-            pl.PrintAllProducts(products);
-            pl.SearchProduct(products);
+         
+            string srchStr = pl.ReadSearchProduct();
+            if (srchStr.ToLower() != "q")   
+            {
+                pl.PrintAllProducts(products, srchStr);   // Vi gör sökningen , och visar res.
+            }           
+            
         }
         else if (choice.Trim().ToLower() == "q")
         {

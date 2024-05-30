@@ -156,34 +156,77 @@ namespace Checkpoint2_Productlist
         }
 
 
-        public void SearchProduct(List<Product> prods)
+        public string ReadSearchProduct()
         {
             string? s = "";
+            string str = "";
             while (true)
             {
                 Console.Write("Enter a product to search for: ");
                 s = Console.ReadLine();
-                if (!string.IsNullOrEmpty(s) || s.Trim().ToLower().Equals("q"))
+                str = s.Trim().ToLower();
+                if (!string.IsNullOrEmpty(s) || str.Equals("q"))
                 {
                     break;
                 }
             }
-
-
+            return str;
         }
 
 
-        public void PrintAllProducts(List<Product> prods)
+        public void PrintAllProducts(List<Product> prods,string search="")
         {
             double sum = prods.Sum(item => item.Price);
             var defaultSorted = DefaultSort(prods); // default sort.ThenBy(item => item.ProductName).ToList();
 
+            bool srch = (search != "") ? true:false;
+            bool found = false;
+
+            if (srch)
+            {
+                Product? searchP = defaultSorted.First(item => item.ProductName.ToLower().Equals(search));
+                if (searchP!=null)     // sökt produkt hittad
+                {
+                    found = true;
+                }
+                else
+                {
+                    found = false;
+                }
+            }
+
             Console.WriteLine("");
             ListHeader();
             Console.WriteLine("---------------------------------------------");
-            foreach (var prod in defaultSorted)
+
+            if (srch && found)
             {
-                Console.WriteLine(prod.Category.PadRight(20) + prod.ProductName.PadRight(20) + prod.Price);
+
+                foreach (var prod in defaultSorted)
+                {
+
+                    if (prod.ProductName.ToLower().Equals(search))
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                        Console.WriteLine(prod.Category.PadRight(20) + prod.ProductName.PadRight(20) + prod.Price);
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.WriteLine(prod.Category.PadRight(20) + prod.ProductName.PadRight(20) + prod.Price);
+                    }
+                }
+            }
+            else if (srch && !found)
+            {
+                Console.WriteLine("The Item was not found");
+            }
+            else   // normal-visning utan sökning
+            {
+                foreach (var prod in defaultSorted)   
+                {
+                    Console.WriteLine(prod.Category.PadRight(20) + prod.ProductName.PadRight(20) + prod.Price);
+                }            
             }
             Console.WriteLine();
 
