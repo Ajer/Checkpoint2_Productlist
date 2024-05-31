@@ -24,15 +24,15 @@ void Main()
 
             pl.PrintAllProducts(products);
 
-            //.............
         }
         else if (choice.Trim().ToLower() == "s")    // search for product 
         {
          
             string srchStr = pl.ReadSearchProduct();
+
             if (srchStr.ToLower() != "q")   
             {
-                pl.PrintAllProducts(products, srchStr);   // Vi gör sökningen , och visar res.
+                pl.PrintAllProducts(products, srchStr);   // We do the search , and show the result
             }           
             
         }

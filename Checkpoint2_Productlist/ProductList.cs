@@ -74,7 +74,7 @@ namespace Checkpoint2_Productlist
                 while (!categoryOk)
                 {
                     dataCategory = ReadDataFromUser("Enter a Category");
-                    if (dataCategory != "")  // antingen "q" eller annan data gör dig fri från loopen
+                    if (dataCategory != "")  // either "q" or other not empty data makes user break out of this loop
                     {
                         categoryOk = true;
                     }
@@ -110,7 +110,7 @@ namespace Checkpoint2_Productlist
                             price = Convert.ToDouble(dataPrice);
                             priceOk = true;
                         }
-                        catch (Exception e)
+                        catch (Exception e)  //.......
                         {
                             if (dataPrice.ToLower() == "q")
                             {
@@ -177,15 +177,19 @@ namespace Checkpoint2_Productlist
         public void PrintAllProducts(List<Product> prods,string search="")
         {
             double sum = prods.Sum(item => item.Price);
-            var defaultSorted = DefaultSort(prods); // default sort.ThenBy(item => item.ProductName).ToList();
+            var defaultSorted = DefaultSort(prods);   // default sort.ThenBy(item => item.ProductName).ToList();
 
             bool srch = (search != "") ? true:false;
             bool found = false;
 
             if (srch)
             {
-                Product? searchP = defaultSorted.First(item => item.ProductName.ToLower().Equals(search));
-                if (searchP!=null)     // sökt produkt hittad
+
+                //FirstOrDefault() returns the default value of the Data Type used if nothing is found,
+                //in case of Reference type like classes or objects it is NULL.
+
+                Product? searchP = defaultSorted.FirstOrDefault(item => item.ProductName.ToLower().Equals(search));
+                if (searchP!=null)     // searched for product found
                 {
                     found = true;
                 }
@@ -220,10 +224,16 @@ namespace Checkpoint2_Productlist
             else if (srch && !found)
             {
                 Console.WriteLine("The Item was not found");
+
+                foreach (var prod in defaultSorted) // Show List
+                {
+                    Console.WriteLine(prod.Category.PadRight(20) + prod.ProductName.PadRight(20) + prod.Price);
+                }
+
             }
-            else   // normal-visning utan sökning
+            else   // normal-display of List without search
             {
-                foreach (var prod in defaultSorted)   
+                foreach (var prod in defaultSorted) // Show List
                 {
                     Console.WriteLine(prod.Category.PadRight(20) + prod.ProductName.PadRight(20) + prod.Price);
                 }            
